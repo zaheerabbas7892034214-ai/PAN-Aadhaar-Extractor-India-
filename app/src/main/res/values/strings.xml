@@ -1,0 +1,106 @@
+<resources>
+    <string name="app_name">PAN &amp; Aadhaar Extractor</string>
+    
+    <!-- Common -->
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_share">Share</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_retry">Retry</string>
+    
+    <!-- Home Screen -->
+    <string name="home_title">PAN &amp; Aadhaar Extractor</string>
+    <string name="home_scan_document">Scan Document</string>
+    <string name="home_pick_image">Pick Image</string>
+    <string name="home_pick_pdf">Pick PDF</string>
+    <string name="home_recent_scans">Recent Scans</string>
+    <string name="home_no_scans">No scans yet</string>
+    <string name="home_unlock_pro">Unlock Pro</string>
+    <string name="home_scans_remaining">%d free scans remaining</string>
+    <string name="home_pro_unlocked">Pro Unlocked</string>
+    
+    <!-- Camera Screen -->
+    <string name="camera_capture">Capture</string>
+    <string name="camera_toggle_flash">Toggle Flash</string>
+    <string name="camera_permission_required">Camera permission required</string>
+    <string name="camera_permission_rationale">Camera permission is needed to scan documents</string>
+    
+    <!-- Extraction Results -->
+    <string name="results_title">Extraction Results</string>
+    <string name="results_document_type">Document Type: %s</string>
+    <string name="results_save_profile">Save Profile</string>
+    <string name="results_saved">Profile saved successfully</string>
+    <string name="results_copy_success">Copied to clipboard</string>
+    <string name="results_upgrade_required">Upgrade to Pro to copy and save</string>
+    
+    <!-- Document Types -->
+    <string name="doc_type_pan">PAN Card</string>
+    <string name="doc_type_aadhaar">Aadhaar Card</string>
+    <string name="doc_type_unknown">Unknown Document</string>
+    
+    <!-- PAN Fields -->
+    <string name="pan_number">PAN Number</string>
+    <string name="pan_name">Name</string>
+    <string name="pan_father_name">Father\'s Name</string>
+    <string name="pan_dob">Date of Birth</string>
+    
+    <!-- Aadhaar Fields -->
+    <string name="aadhaar_number">Aadhaar Number</string>
+    <string name="aadhaar_name">Name</string>
+    <string name="aadhaar_dob">Date of Birth</string>
+    <string name="aadhaar_gender">Gender</string>
+    <string name="aadhaar_address">Address</string>
+    
+    <!-- Profiles Screen -->
+    <string name="profiles_title">Saved Profiles</string>
+    <string name="profiles_empty">No profiles saved yet</string>
+    <string name="profiles_delete_confirm">Delete this profile?</string>
+    <string name="profiles_deleted">Profile deleted</string>
+    
+    <!-- Export Screen -->
+    <string name="export_title">Export Profiles</string>
+    <string name="export_pdf">Export to PDF</string>
+    <string name="export_csv">Export to CSV</string>
+    <string name="export_success">Export successful</string>
+    <string name="export_error">Export failed: %s</string>
+    <string name="export_pro_required">Pro version required to export</string>
+    <string name="export_no_profiles">No profiles to export</string>
+    
+    <!-- Paywall Screen -->
+    <string name="paywall_title">Unlock Pro Features</string>
+    <string name="paywall_subtitle">Get unlimited scans and exports</string>
+    <string name="paywall_price">₹249 one-time payment</string>
+    <string name="paywall_purchase">Purchase Pro</string>
+    <string name="paywall_restore">Restore Purchases</string>
+    <string name="paywall_feature_unlimited">Unlimited Scans</string>
+    <string name="paywall_feature_copy">Copy Extracted Data</string>
+    <string name="paywall_feature_export">Export to PDF &amp; CSV</string>
+    <string name="paywall_feature_save">Save Unlimited Profiles</string>
+    <string name="paywall_free_limit">Free: 3 scans only</string>
+    <string name="paywall_processing">Processing purchase…</string>
+    <string name="paywall_success">Purchase successful! Pro unlocked.</string>
+    <string name="paywall_error">Purchase failed: %s</string>
+    <string name="paywall_restored">Purchase restored successfully</string>
+    <string name="paywall_no_purchase">No previous purchase found</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_restore_purchases">Restore Purchases</string>
+    <string name="settings_clear_data">Clear All Data</string>
+    <string name="settings_clear_confirm">Delete all saved profiles and scan history?</string>
+    <string name="settings_cleared">All data cleared</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_version">Version %s</string>
+    <string name="settings_pro_status">Pro Status</string>
+    <string name="settings_free_scans">Free Scans Used: %d / 3</string>
+    
+    <!-- Errors -->
+    <string name="error_generic">An error occurred</string>
+    <string name="error_no_text_found">No text found in image</string>
+    <string name="error_invalid_pan">Invalid PAN format</string>
+    <string name="error_file_access">Could not access file</string>
+    <string name="error_camera_unavailable">Camera unavailable</string>
+    <string name="error_billing_unavailable">Billing service unavailable</string>
+</resources>
