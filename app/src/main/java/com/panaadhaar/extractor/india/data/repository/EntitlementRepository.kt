@@ -59,9 +59,10 @@ class EntitlementRepository(
     }
     
     suspend fun incrementFreeScan() {
+        val currentEntitlement = entitlementDao.getEntitlementOnce()
         val updated = entitlementDao.incrementFreeScansUsed()
-        if (updated > 0) {
-            val newCount = getFreeScansUsed()
+        if (updated > 0 && currentEntitlement != null) {
+            val newCount = currentEntitlement.freeScansUsed + 1
             sharedPreferences.edit()
                 .putInt(Constants.PREF_FREE_SCANS_USED, newCount)
                 .apply()

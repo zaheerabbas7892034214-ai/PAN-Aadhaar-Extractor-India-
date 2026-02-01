@@ -46,7 +46,7 @@ object DocumentParser {
         val hasPanKeywords = panKeywords.any { upperText.contains(it) }
         val hasAadhaarKeywords = aadhaarKeywords.any { upperText.contains(it) }
         
-        val panPattern = Pattern.compile(Constants.PAN_REGEX)
+        val panPattern = Pattern.compile(Constants.PAN_REGEX.removePrefix("^").removeSuffix("$"))
         val hasPanPattern = panPattern.matcher(text).find()
         
         val aadhaarPattern = Pattern.compile(Constants.AADHAAR_REGEX)
@@ -67,7 +67,7 @@ object DocumentParser {
         var fatherName = ""
         var dob = ""
         
-        val panPattern = Pattern.compile(Constants.PAN_REGEX)
+        val panPattern = Pattern.compile(Constants.PAN_REGEX.removePrefix("^").removeSuffix("$"))
         for (line in lines) {
             val matcher = panPattern.matcher(line)
             if (matcher.find()) {

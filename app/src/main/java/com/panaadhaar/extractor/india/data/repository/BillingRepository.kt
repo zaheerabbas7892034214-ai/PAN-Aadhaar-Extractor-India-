@@ -4,15 +4,19 @@ import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.*
 import com.panaadhaar.extractor.india.utils.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 class BillingRepository(
     private val context: Context,
-    private val entitlementRepository: EntitlementRepository
+    private val entitlementRepository: EntitlementRepository,
+    private val coroutineScope: CoroutineScope
 ) {
     
     private var billingClient: BillingClient? = null
@@ -106,7 +110,7 @@ class BillingRepository(
                 if (!purchase.isAcknowledged) {
                     acknowledgePurchase(purchase)
                 } else {
-                    unlockProFeatures(purchase.purchaseToken)
+                    unlockProFeatures(purchase.purchaseToken, coroutineScope)
                 }
             }
             Purchase.PurchaseState.PENDING -> {
@@ -127,15 +131,15 @@ class BillingRepository(
         
         client.acknowledgePurchase(acknowledgePurchaseParams) { billingResult ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                unlockProFeatures(purchase.purchaseToken)
+                unlockProFeatures(purchase.purchaseToken, coroutineScope)
             } else {
                 _purchaseResult.value = PurchaseResult.Error("Failed to acknowledge purchase")
             }
         }
     }
     
-    private fun unlockProFeatures(token: String) {
-        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+    private fun unlockProFeatures(token: String, scope: CoroutineScope) {
+        scope.launch(Dispatchers.IO) {
             try {
                 entitlementRepository.unlockPro(token)
                 _purchaseResult.value = PurchaseResult.Success
@@ -159,7 +163,7 @@ class BillingRepository(
                     for (purchase in purchases) {
                         if (purchase.products.contains(Constants.PRODUCT_ID_PRO) && 
                             purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                            unlockProFeatures(purchase.purchaseToken)
+                            unlockProFeatures(purchase.purchaseToken, coroutineScope)
                             foundPurchase = true
                             break
                         }
