@@ -219,11 +219,7 @@ private fun ExportOptionCard(
     enabled: Boolean
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(
-                if (enabled) Modifier else Modifier
-            ),
+        modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
         enabled = enabled
     ) {
