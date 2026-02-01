@@ -5,10 +5,9 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.itextpdf.kernel.pdf.PdfDocument
-import com.itextpdf.kernel.pdf.PdfWriter
-import com.itextpdf.layout.Document
-import com.itextpdf.layout.element.Paragraph
+import com.itextpdf.text.Document
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.pdf.PdfWriter
 import com.panaadhaar.extractor.india.data.model.DocumentType
 import com.panaadhaar.extractor.india.data.model.ExtractedData
 import com.panaadhaar.extractor.india.data.repository.EntitlementRepository
@@ -65,9 +64,9 @@ class ExportViewModel(
                 }
 
                 val pdfFile = File(exportDir, "profile_${profileId}_${System.currentTimeMillis()}.pdf")
-                val pdfWriter = PdfWriter(pdfFile)
-                val pdfDocument = PdfDocument(pdfWriter)
-                val document = Document(pdfDocument)
+                val document = Document()
+                val writer = PdfWriter.getInstance(document, pdfFile.outputStream())
+                document.open()
 
                 document.add(Paragraph("Document Type: ${profile.documentType.name}"))
                 document.add(Paragraph(" "))
@@ -96,6 +95,7 @@ class ExportViewModel(
                 }
 
                 document.close()
+                writer.close()
 
                 val fileUri = FileProvider.getUriForFile(
                     getApplication(),

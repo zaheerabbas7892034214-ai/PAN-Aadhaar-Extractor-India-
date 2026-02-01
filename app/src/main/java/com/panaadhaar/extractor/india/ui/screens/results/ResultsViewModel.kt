@@ -33,8 +33,28 @@ class ResultsViewModel(
     private val _saveState = MutableStateFlow<SaveState>(SaveState.Idle)
     val saveState: StateFlow<SaveState> = _saveState.asStateFlow()
 
+    private val _canPerformAction = MutableStateFlow(false)
+    val canPerformAction: StateFlow<Boolean> = _canPerformAction.asStateFlow()
+
+    init {
+        checkEntitlementStatus()
+    }
+
+    private fun checkEntitlementStatus() {
+        viewModelScope.launch {
+            try {
+                val isPro = entitlementRepository.isPro()
+                val freeScansUsed = entitlementRepository.getFreeScansUsed()
+                _canPerformAction.value = isPro || freeScansUsed < Constants.FREE_SCAN_LIMIT
+            } catch (e: Exception) {
+                _canPerformAction.value = false
+            }
+        }
+    }
+
     fun setExtractedData(data: ExtractedData) {
         _extractedData.value = data
+        checkEntitlementStatus()
     }
 
     fun saveProfile() {
@@ -64,28 +84,25 @@ class ResultsViewModel(
         }
     }
 
-    fun copyToClipboard(context: Context, label: String, text: String): Boolean {
-        return try {
-            val isPro = entitlementRepository.isPro()
-            val freeScansUsed = entitlementRepository.getFreeScansUsed()
+    fun copyToClipboard(context: Context, label: String, text: String) {
+        viewModelScope.launch {
+            try {
+                val canPerform = _canPerformAction.value
+                if (!canPerform) {
+                    return@launch
+                }
 
-            if (!isPro && freeScansUsed >= Constants.FREE_SCAN_LIMIT) {
-                return false
+                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText(label, text)
+                clipboard.setPrimaryClip(clip)
+            } catch (e: Exception) {
+                // Handle silently or show error
             }
-
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(label, text)
-            clipboard.setPrimaryClip(clip)
-            true
-        } catch (e: Exception) {
-            false
         }
     }
 
     fun canSaveOrCopy(): Boolean {
-        val isPro = entitlementRepository.isPro()
-        val freeScansUsed = entitlementRepository.getFreeScansUsed()
-        return isPro || freeScansUsed < Constants.FREE_SCAN_LIMIT
+        return _canPerformAction.value
     }
 
     fun resetSaveState() {

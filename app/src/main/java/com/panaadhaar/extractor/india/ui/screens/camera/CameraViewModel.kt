@@ -28,14 +28,12 @@ class CameraViewModel(
     private val _extractionState = MutableStateFlow<ExtractionState>(ExtractionState.Idle)
     val extractionState: StateFlow<ExtractionState> = _extractionState.asStateFlow()
 
-    private val textExtractionUtils = TextExtractionUtils(getApplication())
-
     fun processCapturedImage(imageUri: Uri) {
         viewModelScope.launch {
             _extractionState.value = ExtractionState.Processing
 
             try {
-                val rawText = textExtractionUtils.extractTextFromImage(imageUri)
+                val rawText = TextExtractionUtils.extractTextFromImage(imageUri, getApplication())
                 
                 if (rawText.isBlank()) {
                     _extractionState.value = ExtractionState.Error("No text found in image")
